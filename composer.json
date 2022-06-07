@@ -1,0 +1,16 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/"
+        },
+        "classmap": [
+            "Controllers",
+            "Models"
+        ]
+    },
+  "require": {
+    "ext-pdo": "*",
+        "vlucas/phpdotenv": "^5.4"
+  }
+}
