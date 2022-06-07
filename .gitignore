@@ -2,5 +2,7 @@ composer.lock
 SOTelegram.code-workspace
 vendor
 log
-*.sql
+/*.sql
 .env
+BOT.php
+city.json
