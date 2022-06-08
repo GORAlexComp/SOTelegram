@@ -4,21 +4,14 @@ $(document).ready(function () {
 
 		Cookies.set('active_chat', '{"cid": "' + target + '"}');
 
-		$.ajax({
-			type: "GET",
-			url: "http://chats.loc/API.php",
-			data: {updateMessages: 1},
-			dataType: "html",
-			success: (r) => {
-				$('.chatContainer').html(r);
-				$('.messages-empty').replaceWith('<div class="messages"></div>');
-			},
-			error: (xhr, status) => {
-				alert("Возникла проблема приполучении сообщений чата!");
-			}
-		});
+		$.get("http://chats.loc/API.php", {"updateMessages": "1"})
+		.done(function (r) {
+			$('.chatContainer').html(r);
+			$('.messages-empty').replaceWith('<div class="messages"></div>');
+		})
+		.fail(function (e) {});
 
-		$('.chat-item').removeClass(function() {
+		$('.chat-item').removeClass(function () {
 			return $(this).removeClass('active');
 		});
 		$(this).addClass('active');
@@ -40,43 +33,9 @@ $(document).ready(function () {
 
 	$('.chats > *').on('click', function () {
 		Cookies.set('active_chat');
-		// Cookies.set('hidden_info', 'hide');
-		// $('.info').hide();
 		$('.chatContainer').html('<div class="messages-empty d-flex flex-column flex-grow-1 px-0"> \
 			<p>Выберите чат из списка слева!</p> \
 		</div>');
 		$('.chat-item').removeClass('active');
-		// hiddenInfo();
 	});
-
-	/*$('.dialog-info').on('click', function () {
-		if ($('.info').hasClass('hidden') == true) {
-			$('.info').removeClass('hidden');
-			Cookies.set('hidden_info', 'view');
-		} else {
-			$('.info').addClass('hidden');
-			Cookies.set('hidden_info', 'hide');
-		}
-	});*/
-
-	/* $('.dialog-info').on('click', function () {
-		if ($('.info').is(':hidden') == true) {
-			$('.info').show();
-			Cookies.set('hidden_info', 'view');
-		} else {
-			$('.info').hide();
-			Cookies.set('hidden_info', 'hide');
-		}
-	});*/
-
-	/*function hiddenInfo() {
-		if (Cookies.get('hidden_info') == 'hide') {
-			$('.info').hide();
-		} else {
-			$('.info').show();
-		}
-
-		return false;
-	}
-	hiddenInfo();*/
 });

@@ -41,7 +41,7 @@ body {
 
 .messages .media img {
     position: absolute;
-    bottom: 40px;
+    bottom: 8px;
 }
 
 .messages .chat-box .media.message-manager img {
@@ -96,11 +96,15 @@ body {
 	margin-left: .9rem!important;
 }
 
-.messages .chat-box .media .media-body div {
+.messages .chat-box .media.remove-bottom {
+	margin-bottom: -5px!important;
+}
+
+.messages .chat-box .media .media-body .message-content {
 	position: relative;
 }
 
-.messages .chat-box .media.message-user .media-body div::after {
+.messages .chat-box .media.message-user .media-body .message-content::after {
 	content: '';
 	position: absolute;
 	bottom: 0;
@@ -112,7 +116,11 @@ body {
 	border-color: transparent #f8f9fa transparent transparent;
 }
 
-.messages .chat-box .media.message-manager .media-body div::after {
+.messages .chat-box .media.message-user .media-body .message-content-clear::after {
+	content: '';
+}
+
+.messages .chat-box .media.message-manager .media-body .message-content::after {
 	content: '';
 	position: absolute;
 	bottom: 0;
@@ -124,6 +132,15 @@ body {
 	border-color: transparent #007bff transparent transparent;
 	z-index: 100;
 	transform: rotate(90deg);
+}
+
+.messages .chat-box .media.message-user .media-body .message-content-clear::after {
+	content: '';
+}
+
+.highlighted {
+	background-color: #ff7676;
+	color: white;
 }
 
 .chat-item.active .header-chat-item {
@@ -166,16 +183,16 @@ input::placeholder {
 
 
 /* Style rules for dark mode */
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
 	body {
 	  background-color: black;
 	  color: white;
 	}
   }
   /* Style rules for light mode */
-  @media (prefers-color-scheme: light) {
+  /*@media (prefers-color-scheme: light) {
 	body {
 	  background-color: white;
 	  color: black;
 	}
-  }
+  }*/

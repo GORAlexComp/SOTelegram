@@ -26,17 +26,25 @@
 			$result = '<div class="px-4 py-5 chat-box">';
 			
 			$sender = '';
-			
-			foreach ($messages as $message) {
+			$script = 1;
 
+			foreach ($messages as $message) {
 				if ($message['sender'] == $sender) {
-					$result .= '<script class="del-script">$(\'.chat-box .media:last img\').remove();</script>';
+					$result .= '<script class="del-script">
+						$(\'img\', $(\'.del-script\').prev(\'.media\')).remove();
+						$(\'.del-script\').prev().addClass(\'remove-bottom\');
+						$(\'.media-body .message-content\', $(\'.del-script\').prev(\'.media\'))
+							.removeClass(\'message-content\')
+							.addClass(\'message-content-clear\');
+						$(\'.del-script\').remove();
+					</script>';
+
 					if ($message['sender'] == $message['uid']) {
 						$result .= '<div class="media message-user mb-3">
 							<img src="' . CD::getChat($message['sender'])[0]['avatar'] . '" alt="user" width="50" class="rounded-circle">
 							<div class="media-body ml-3">
-								<div class="bg-light rounded py-2 px-3 mb-2">
-									<p class="text-small mb-0 text-muted">' . $message['content'] . '</p>
+								<div class="bg-light rounded py-2 px-3 mb-2 message-content">
+									<p class="text-small mb-0 text-muted">' . preg_replace("/\/start/", '<span class="highlighted px-1">/start</span>', $message['content']) . '</p>
 									<p class="small date-dark">' . $message['date'] . '</p>
 								</div>
 							</div>
@@ -44,22 +52,21 @@
 					} else {
 						$result .= '<div class="media message-manager ml-auto mb-3">
 							<div class="media-body">
-								<div class="bg-primary rounded py-2 px-3 mb-2">
-									<p class="text-small mb-0 text-white">' . $message['content'] . '</p>
+								<div class="bg-primary rounded py-2 px-3 mb-2 message-content">
+									<p class="text-small mb-0 text-white">' . preg_replace(["/\/start/", "/\/help/"], '<span class="highlighted px-1">/start</span>', $message['content']) . '</p>
 									<p class="small date-light">' . $message['date'] . '</p>
 								</div>
 							</div>
 							<img src="' . CD::getChat($message['sender'])[0]['avatar'] . '" alt="user" width="50" class="rounded-circle">
 						</div>';
 					}
-
 				} else {
 					if ($message['sender'] == $message['uid']) {
 						$result .= '<div class="media message-user mb-3">
 							<img src="' . CD::getChat($message['sender'])[0]['avatar'] . '" alt="user" width="50" class="rounded-circle">
 							<div class="media-body ml-3">
-								<div class="bg-light rounded py-2 px-3 mb-2">
-									<p class="text-small mb-0 text-muted">' . $message['content'] . '</p>
+								<div class="bg-light rounded py-2 px-3 mb-2 message-content">
+									<p class="text-small mb-0 text-muted">' . preg_replace("/\/start/", '<span class="highlighted px-1">/start</span>', $message['content']) . '</p>
 									<p class="small date-dark">' . $message['date'] . '</p>
 								</div>
 							</div>
@@ -67,8 +74,8 @@
 					} else {
 						$result .= '<div class="media message-manager ml-auto mb-3">
 							<div class="media-body">
-								<div class="bg-primary rounded py-2 px-3 mb-2">
-									<p class="text-small mb-0 text-white">' . $message['content'] . '</p>
+								<div class="bg-primary rounded py-2 px-3 mb-2 message-content">
+									<p class="text-small mb-0 text-white">' . preg_replace("/\/start/", '<span class="highlighted px-1">/start</span>', $message['content']) . '</p>
 									<p class="small date-light">' . $message['date'] . '</p>
 								</div>
 							</div>
@@ -78,6 +85,7 @@
 				}
 
 				$sender = $message['sender'];
+				$script+1;
 			}
 
 			return $result . '</div>';
